@@ -1,0 +1,7 @@
+interface:
+  display_name: "GitHub Issue Manager"
+  short_description: "Manage GitHub issues and configurable issue branches"
+  default_prompt: "Use $github-issue-manager to manage this repository issue workflow with the gh CLI: check template mode, inspect issues, show active branch-naming settings before branch creation, and preview risky mutations."
+
+policy:
+  allow_implicit_invocation: true

@@ -1,0 +1,24 @@
+{
+  "name": "github-issue-manager",
+  "version": "0.1.0",
+  "description": "Manage GitHub issues safely through the gh CLI with template detection and dry-run issue creation.",
+  "author": {
+    "name": "nogie-dev"
+  },
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "GitHub Issue Manager",
+    "shortDescription": "Manage GitHub issues safely with the gh CLI.",
+    "longDescription": "GitHub Issue Manager helps Codex inspect, create, triage, edit, and connect GitHub issues to work branches using the authenticated gh CLI. It checks gh readiness, detects issue templates in the target repository, defaults issue creation to dry-run, and documents branch naming policy.",
+    "developerName": "nogie-dev",
+    "category": "Productivity",
+    "capabilities": [
+      "GitHub issue inspection",
+      "Dry-run issue creation",
+      "Issue template detection",
+      "Branch naming guidance"
+    ],
+    "defaultPrompt": "Use $github-issue-manager to inspect this repository issue workflow, check template mode, preview issue creation, and show branch naming settings before branch creation."
+  },
+  "repository": "https://github.com/nogie-dev/my-skills"
+}

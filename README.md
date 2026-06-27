@@ -14,6 +14,25 @@
 - 안전한 issue 생성 helper: 기본 dry-run, `--apply`일 때만 실제 생성
 - issue 기반 branch naming 정책 문서화
 
+### 설치
+
+Marketplace 방식 권장:
+
+```bash
+codex plugin marketplace add nogie-dev/my-skills --ref main
+codex plugin add github-issue-manager@my-skills
+```
+
+설치 후 Codex를 새로 시작합니다.
+
+직접 skill만 설치하려면:
+
+```bash
+python3 ~/.codex/skills/.system/skill-installer/scripts/install-skill-from-github.py \
+  --repo nogie-dev/my-skills \
+  --path codex-skills/github-issue-manager
+```
+
 ### 사용 준비
 
 1. `gh` CLI 설치
@@ -23,8 +42,6 @@
 gh auth login
 gh auth status
 ```
-
-3. 스킬을 Codex가 읽을 수 있는 skills 경로에 설치하거나 이 저장소 경로에서 사용합니다.
 
 ### 자주 쓰는 요청 예시
 
@@ -102,8 +119,19 @@ branch_naming:
   comment_on_issue: false
 ```
 
+### 배포 구조
+
+이 저장소는 두 설치 방식을 모두 제공합니다.
+
+```text
+.agents/plugins/marketplace.json              # Codex plugin marketplace
+plugins/github-issue-manager/                 # Marketplace용 plugin 패키지
+codex-skills/github-issue-manager/            # 직접 skill 설치용 원본
+```
+
 자세한 동작은 다음 파일을 봅니다.
 
+- [`plugins/github-issue-manager/.codex-plugin/plugin.json`](plugins/github-issue-manager/.codex-plugin/plugin.json)
 - [`codex-skills/github-issue-manager/SKILL.md`](codex-skills/github-issue-manager/SKILL.md)
 - [`codex-skills/github-issue-manager/references/branch-naming-policy.md`](codex-skills/github-issue-manager/references/branch-naming-policy.md)
 - [`codex-skills/github-issue-manager/references/issue-template-policy.md`](codex-skills/github-issue-manager/references/issue-template-policy.md)
