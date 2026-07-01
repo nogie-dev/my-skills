@@ -72,15 +72,39 @@ Treat issue deletion as permanent and permission-limited. Prefer closing with a 
    - Re-read the issue, branch, labels, or template after mutation.
    - Report URL, issue number, branch name, changed fields, and remaining risks.
 
+## Issue title policy
+
+Use concrete open-source style work titles. Do not use bracket prefixes such as `[FEATURE]`, `[BUG]`, or `[MAINTENANCE]`.
+
+Preferred formats:
+- `<area>: <action>`
+- When useful, conventional style: `feat(area): <action>` or `fix(area): <action>`
+
+Keep issue type, status, priority, and canonical service/area classification in labels or GitHub Project fields, not bracket prefixes in the title. Any `<area>` in the title is only a concise work surface hint, not the authoritative classification.
+
+Apply this policy whenever passing `--title` to `gh issue create` or `scripts/gh_issue.py create`. `scripts/gh_issue.py` accepts the title as provided; do not rely on automatic title normalization unless explicitly requested in the future. Do not rely on issue template frontmatter defaults such as `title: "[FEATURE] "`; replace them with a policy-compliant title before creation.
+
+Good examples:
+- `matching-engine: emit executions through worker output channel`
+- `etl: ingest raw match logs`
+- `ci: add minimal Go quality gate`
+- `docs: document exchange-lab topology`
+- `fix(orderbook): remove stale maker index`
+
+Bad examples:
+- `[FEATURE] Add execution events`
+- `[BUG] Matching is broken`
+- `[MAINTENANCE] Refactor repository`
+
 ## Supported tasks
 
 For standard repository inspection and single-issue creation, prefer `scripts/gh_issue.py`. It runs the `gh` readiness gate, checks the target repository and local template mode, validates requested labels, defaults to dry-run, and verifies created issues. Use direct `gh` commands for operations not implemented by the script.
 
 ```bash
 python3 <skill-path>/scripts/gh_issue.py inspect --repo OWNER/REPO --repo-dir /path/to/local/repo
-python3 <skill-path>/scripts/gh_issue.py create --repo OWNER/REPO --repo-dir /path/to/local/repo --title "TITLE" --body-file /tmp/issue.md --label bug
+python3 <skill-path>/scripts/gh_issue.py create --repo OWNER/REPO --repo-dir /path/to/local/repo --title "matching-engine: emit executions through worker output channel" --body-file /tmp/issue.md --label bug
 # Create only after reviewing the preview:
-python3 <skill-path>/scripts/gh_issue.py create --repo OWNER/REPO --repo-dir /path/to/local/repo --title "TITLE" --body-file /tmp/issue.md --label bug --apply
+python3 <skill-path>/scripts/gh_issue.py create --repo OWNER/REPO --repo-dir /path/to/local/repo --title "matching-engine: emit executions through worker output channel" --body-file /tmp/issue.md --label bug --apply
 ```
 
 ### Issue discovery and triage
@@ -96,12 +120,12 @@ gh issue view NUMBER --repo OWNER/REPO --comments --json number,title,body,state
 
 ### Issue creation
 
-When template mode is enabled, map the request to an existing template. When disabled, create a structured body directly from the request; include acceptance criteria for tasks/features and reproduction details for bugs. Do not propose templates unless the user asks for them or the workflow requires them.
+When template mode is enabled, map the request to an existing template, but replace any template-provided bracket-prefix title default with a title that follows the Issue title policy. When disabled, create a structured body directly from the request; include acceptance criteria for tasks/features and reproduction details for bugs. Do not propose templates unless the user asks for them or the workflow requires them.
 
 Useful `gh` fallback:
 
 ```bash
-gh issue create --repo OWNER/REPO --title "TITLE" --body-file /tmp/issue-body.md --label "label1,label2" --assignee "login" --milestone "MILESTONE"
+gh issue create --repo OWNER/REPO --title "ci: add minimal Go quality gate" --body-file /tmp/issue-body.md --label "label1,label2" --assignee "login" --milestone "MILESTONE"
 ```
 
 ### Issue editing and assignment
