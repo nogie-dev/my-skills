@@ -119,19 +119,108 @@ branch_naming:
   comment_on_issue: false
 ```
 
+
+
+## GitHub Project Manager
+
+`codex-skills/github-project-manager`는 GitHub Projects 작업을 `gh` CLI 기준으로 처리하는 Codex 스킬입니다.
+
+### 주요 기능
+
+- `gh` 설치·인증·Project scope 사전 검사
+- project 목록, 상세, field, item 조회
+- issue/PR/draft item 추가 및 project item 관리 가이드
+- Status 같은 single-select field 변경 helper: 기본 dry-run, `--apply`일 때만 실제 변경
+- `Priority`, `Size` 같은 다른 single-select field도 `--field`로 변경 가능
+
+### 설치
+
+Marketplace 방식 권장:
+
+```bash
+codex plugin marketplace add nogie-dev/my-skills --ref main
+codex plugin add github-project-manager@my-skills
+```
+
+설치 후 Codex를 새로 시작합니다.
+
+직접 skill만 설치하려면:
+
+```bash
+python3 ~/.codex/skills/.system/skill-installer/scripts/install-skill-from-github.py \
+  --repo nogie-dev/my-skills \
+  --path codex-skills/github-project-manager
+```
+
+### 사용 준비
+
+GitHub Projects는 `project` scope가 필요합니다.
+
+```bash
+gh auth login
+gh auth refresh -s project
+gh auth status
+```
+
+### 자주 쓰는 요청 예시
+
+```text
+내 GitHub Project 목록을 보여줘
+프로젝트 2번의 field와 item을 요약해줘
+이슈 #4를 In progress로 옮겨줘
+이 이슈를 프로젝트에 추가하고 Ready 상태로 바꿔줘
+```
+
+### helper script 사용법
+
+```bash
+# 인증/scope/project 접근 가능 여부 확인
+python3 codex-skills/github-project-manager/scripts/gh_project_readiness.py --owner OWNER
+
+# Status 변경 미리보기: 실제 변경 안 함
+python3 codex-skills/github-project-manager/scripts/gh_project_status.py \
+  --owner OWNER \
+  --project PROJECT_NUMBER_OR_TITLE \
+  --repo OWNER/REPO \
+  --item ISSUE_NUMBER \
+  --status "In progress"
+
+# 실제 변경: preview 확인 후 --apply 명시
+python3 codex-skills/github-project-manager/scripts/gh_project_status.py \
+  --owner OWNER \
+  --project PROJECT_NUMBER_OR_TITLE \
+  --repo OWNER/REPO \
+  --item ISSUE_NUMBER \
+  --status "In progress" \
+  --apply
+
+# 다른 single-select field 변경
+python3 codex-skills/github-project-manager/scripts/gh_project_status.py \
+  --owner OWNER \
+  --project PROJECT_NUMBER_OR_TITLE \
+  --repo OWNER/REPO \
+  --item ISSUE_NUMBER \
+  --field Priority \
+  --status P1
+```
+
 ### 배포 구조
 
 이 저장소는 두 설치 방식을 모두 제공합니다.
 
 ```text
 .agents/plugins/marketplace.json              # Codex plugin marketplace
-plugins/github-issue-manager/                 # Marketplace용 plugin 패키지
-codex-skills/github-issue-manager/            # 직접 skill 설치용 원본
+plugins/github-issue-manager/                 # Marketplace용 issue manager plugin 패키지
+plugins/github-project-manager/               # Marketplace용 project manager plugin 패키지
+codex-skills/github-issue-manager/            # 직접 issue manager skill 설치용 원본
+codex-skills/github-project-manager/          # 직접 project manager skill 설치용 원본
 ```
 
 자세한 동작은 다음 파일을 봅니다.
 
 - [`plugins/github-issue-manager/.codex-plugin/plugin.json`](plugins/github-issue-manager/.codex-plugin/plugin.json)
+- [`plugins/github-project-manager/.codex-plugin/plugin.json`](plugins/github-project-manager/.codex-plugin/plugin.json)
 - [`codex-skills/github-issue-manager/SKILL.md`](codex-skills/github-issue-manager/SKILL.md)
+- [`codex-skills/github-project-manager/SKILL.md`](codex-skills/github-project-manager/SKILL.md)
 - [`codex-skills/github-issue-manager/references/branch-naming-policy.md`](codex-skills/github-issue-manager/references/branch-naming-policy.md)
 - [`codex-skills/github-issue-manager/references/issue-template-policy.md`](codex-skills/github-issue-manager/references/issue-template-policy.md)

@@ -1,0 +1,24 @@
+{
+  "name": "github-project-manager",
+  "version": "0.1.0",
+  "description": "Manage GitHub Projects safely through the gh CLI with readiness checks and dry-run status updates.",
+  "author": {
+    "name": "nogie-dev"
+  },
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "GitHub Project Manager",
+    "shortDescription": "Manage GitHub Projects safely with the gh CLI.",
+    "longDescription": "GitHub Project Manager helps Codex inspect GitHub Projects, list fields and items, add issues or pull requests, and safely update Status or other single-select fields using the authenticated gh CLI. It checks project readiness and defaults status changes to dry-run before applying mutations.",
+    "developerName": "nogie-dev",
+    "category": "Productivity",
+    "capabilities": [
+      "GitHub Project inspection",
+      "Project item management",
+      "Dry-run status updates",
+      "Single-select field updates"
+    ],
+    "defaultPrompt": "Use $github-project-manager to inspect this GitHub Project, preview item status changes, and apply them only after dry-run verification."
+  },
+  "repository": "https://github.com/nogie-dev/my-skills"
+}

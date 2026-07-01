@@ -1,0 +1,4 @@
+interface:
+  display_name: "GitHub Project Manager"
+  short_description: "Manage GitHub Projects with gh."
+  default_prompt: "Manage this GitHub Project with gh."
